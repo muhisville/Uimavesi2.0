@@ -1,3 +1,12 @@
+// Pienen präntin päivämäärä
+const paivam = new Date();
+let paivamaa = new Intl.DateTimeFormat("fi-FI", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(paivam);
+document.querySelector("#paivam").innerHTML = paivamaa;
+
 // Lisätään uimarannat pudotusvalikkoon
 // Luodaan AJAX-olio
 var xmlhttp = new XMLHttpRequest();
@@ -28,7 +37,7 @@ let listaus = document.querySelector("#uimaranta")
         }
     }
     // Lisätään lista valikkoon
-    listaus.innerHTML += lista
+    listaus.innerHTML = lista
 }
 }
 // Haetaan uimavesidata API:sta käyttäjän valinnan perusteella
@@ -50,7 +59,6 @@ xmlhttp.onreadystatechange = function () {
   if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
     // Vastaus muunnetaan JSON-muotoiseksi
     var data = JSON.parse(xmlhttp.responseText);
-    console.log(data);
     // Validoidaan sisältö
     if (data.features[idnumero].properties.measurement.temp_water > 0) {
     // Haetaan haluttu data: Uimarannan nimi, sijainti ja veden lämpötila
@@ -108,10 +116,77 @@ xmlhttp.onreadystatechange = function () {
       </tr>
     </table>`
     // Syötetään taulukko sivulle
-    taulukonpaikka.innerHTML = taulukko}
-    //Virheilmoitus, jos veden lämpötila ei ole saatavilla
+    taulukonpaikka.innerHTML = taulukko
+
+    // Haetaan uimarannan ID lämpötiladiagrammia varten
+    let id = data.features[idnumero].id
+
+    // Haetaan uimapaikkakohtaiset lämpötilatiedot diagrammiin
+    // Luodaan AJAX-olio
+    var dgrm = new XMLHttpRequest();
+    let url = `https://iot.fvh.fi/opendata/uiras/${id}.geojson`
+    // Haetaan tiedot API:sta
+    dgrm.open('GET', url, true);
+// Määritellään käsittelijä vastauksen saapuessa
+    dgrm.onreadystatechange = function () {
+  // Tarkista virheet
+  if (dgrm.readyState === 4 && dgrm.status === 200) {
+    // Vastaus muunnetaan JSON-muotoiseksi
+    var dgrmdata = JSON.parse(dgrm.responseText);
+    console.log(dgrmdata);
+    //Haetaan lämpötilatiedot ja päivämäärät API:sta muuttujiin
+    let labels = [];
+    let values = [];
+    for (let i= 0 ; i < dgrmdata.properties.data.d1.length; i += 10){
+    // Siivotaan päivämäärät
+    let paivat = new Date(dgrmdata.properties.data.d1[i].time);
+    let paivamaarat = new Intl.DateTimeFormat("fi-FI", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(paivat);
+    labels.push(paivamaarat)
+    values.push(dgrmdata.properties.data.d1[i].temp_water)
+    }
+    console.log(labels)
+  
+// Luodaan diagrammi
+const ctx = document.querySelector("#diagrammi").getContext("2d");
+
+// Jos vanha diagrammi on olemassa, poistetaan se
+  if (window.diagrammi && typeof window.diagrammi.destroy === "function") {
+    window.diagrammi.destroy();
+  }
+
+// Määritellään diagrammin tiedot
+window.diagrammi = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Veden lämpötila (°C)',
+        data: values,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  }
+};
+dgrm.send();
+}
+    // Virheilmoitus, jos veden lämpötila ei ole saatavilla ja vanhan diagrammin poisto
     else {
       taulukonpaikka.innerHTML ="<h2>Tieto ei ole saatavilla</h2>"
+    if (window.diagrammi && typeof window.diagrammi.destroy === "function") {
+    window.diagrammi.destroy();
+  }
     }
 }
 }

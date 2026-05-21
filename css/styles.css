@@ -1,10 +1,14 @@
 body {
     font-family:Arial, Helvetica, sans-serif; 
     background-color: rgb(222, 222, 222);
+    text-align: center;
 }
 table {
-      margin-top: 20px;
-      margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 h2 {
     margin-top: 20px;
@@ -12,9 +16,16 @@ h2 {
     color:darkred
 }
 .reunus {
-      margin-left: 30px;
-      margin-top: 30px;
-      margin-bottom: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.diagr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
 }
 .alle5 {
     background-color: rgb(33, 85, 196);
@@ -35,8 +46,8 @@ h2 {
     background-color: rgb(222, 222, 222);
 }
 .pieni_prantti {
-      position: fixed;
-      bottom: 20px;
-      margin-right: 10px;
-      font-size: xx-small;
+    position: fixed;
+    bottom: 20px;
+    margin-right: 10px;
+    font-size: xx-small;
 }
