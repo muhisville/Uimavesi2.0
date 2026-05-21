@@ -1,0 +1,42 @@
+body {
+    font-family:Arial, Helvetica, sans-serif; 
+    background-color: rgb(222, 222, 222);
+}
+table {
+      margin-top: 20px;
+      margin-bottom: 40px;
+}
+h2 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color:darkred
+}
+.reunus {
+      margin-left: 30px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+}
+.alle5 {
+    background-color: rgb(33, 85, 196);
+}
+.alle10 {
+    background-color: rgb(64, 168, 237);
+  }
+.alle15 {
+    background-color: rgb(197, 229, 249);
+}
+.alle20 {
+    background-color: rgb(253, 180, 230);
+}
+.yli20 {
+    background-color: rgb(250, 96, 160);
+}
+.perus {
+    background-color: rgb(222, 222, 222);
+}
+.pieni_prantti {
+      position: fixed;
+      bottom: 20px;
+      margin-right: 10px;
+      font-size: xx-small;
+}
