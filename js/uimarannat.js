@@ -37,7 +37,7 @@ let listaus = document.querySelector("#uimaranta")
         }
     }
     // Lisätään lista valikkoon
-    listaus.innerHTML = lista
+    listaus.innerHTML += lista
 }
 }
 // Haetaan uimavesidata API:sta käyttäjän valinnan perusteella
