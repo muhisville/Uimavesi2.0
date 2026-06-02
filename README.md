@@ -35,7 +35,7 @@ Kurssi on edelleen laadukas ja opettavainen. Koen, että olisin saanut kurssista
 Sovelluksen taustaväri vaihtuu sen mukaan, miten lammintä näytettävän uimarannan vesi on. Kaikki lämpömittarit eivät kuitenkaan toimita oikeaa tietoa, sillä ne voivat olla talviteloilla tai muuten väliaikaisesti pois käytöstä. Tässä tapauksessa sovellus antaa virheilmoituksen "Tietoa ei voida hakea", mutta taustaväri ei vaihdu vaan noudattaa edellisen, onnistuneen haun tulosta. Se ei ole varsinainen virhe, mutta olisi kiva korjata jossain vaiheessa.
 
 ## Kuvakaappaukset
-`![Sovellus](https://raw.githubusercontent.com/muhisville/Uimavesi2.0/refs/heads/main/kuvat/uimavedet2.png)`
+[Sovellus](https://raw.githubusercontent.com/muhisville/Uimavesi2.0/refs/heads/main/kuvat/uimavedet2.png)
 Kuva: Ville Muhonen
 
 ## Teknologiat
