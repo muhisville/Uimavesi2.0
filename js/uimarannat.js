@@ -22,7 +22,7 @@ $.ajax({
         lista += '<option value="' + i + '">' + uimaranta + '</option>';
       }
     }
-    // DOM-skriptataan lista alasvetovalikkon HTML-sivulla
+    // DOM-skriptataan lista alasvetovalikkon HTML-sivulla käyttäen jQueryä
     $("#uimaranta").html(lista);
   },
     // Virheilmoitus, jos API tai muu sakkaa

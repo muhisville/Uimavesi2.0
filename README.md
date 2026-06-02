@@ -4,7 +4,7 @@ tekijä: Ville Muhonen
 
 ## Verkkolinkit:
 Pääset julkaistuun sovellukseen käsiksi osoitteessa [https://uimavedet2.netlify.app/](https://uimavedet2.netlify.app/)
-Linkki projektin videoesittelyyn [youtube.com](https://youtu.be/SJ52DcYlydI)
+Linkki projektin videoesittelyyn [youtube.com](https://youtu.be/3n2XJWM3nbM)
 
 ## Työn jakautuminen 
 Tein työn kokonaan itse.
