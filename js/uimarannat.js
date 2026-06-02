@@ -1,45 +1,34 @@
-// Pienen präntin päivämäärä
+// Pienen präntin päivittyvä päivämäärä
 const paivam = new Date();
 let paivamaa = new Intl.DateTimeFormat("fi-FI", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   }).format(paivam);
-document.querySelector("#paivam").innerHTML = paivamaa;
+// Käytetään jQueryä DOM-scriptaukseen
+$("#paivam").html(paivamaa);
 
-// Lisätään uimarannat pudotusvalikkoon
-// Luodaan AJAX-olio
-var xmlhttp = new XMLHttpRequest();
-// Haetaan tiedot API:sta
-xmlhttp.open('GET', 'https://iot.fvh.fi/opendata/uiras/uiras_latest.geojson', true);
-// Lähetetään AJAX-olio
-xmlhttp.send();
+// Luodaan AJAX-kutsu jQueryllä ja määritellään sen parametrit
+$.ajax({
+  url: 'https://iot.fvh.fi/opendata/uiras/uiras_latest.geojson',
+  type: 'GET',
+  success: function(response) {
+    let lista = "<option value = ''>Valitse</option>";
+    for (let i = 0; i < response.features.length; i++) {
+      let uimaranta = response.features[i].properties.name;
 
-xmlhttp.onreadystatechange = function () {
-  // Tarkista virheet
-  if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-    // Vastaus muutetaan JSON-muotoon
-    var data = JSON.parse(xmlhttp.responseText);
-// Haetaan html-dokumentista alasvetovalikko
-let listaus = document.querySelector("#uimaranta")
-
-// Käydään JSON-data läpi ja muodostetaan lista uimarannoista
-    let lista = ""
-    for (let i=0; i < data.features.length; i++){
-        let uimaranta = data.features[i].properties.name
-        // Lisätään ehtolause, joka poistaa uimaranta-valikosta vanhat ja toimimattomat mittarit
-        if(data.features[i].properties.measurement !== undefined){
-        // Lisätään listalle validoidut uimapaikat sekä taulukon numero value-kenttään
-        lista += '<option value = "' + i +'">' + uimaranta + '</option>'
+      if (response.features[i].properties.measurement !== undefined) {
+        lista += '<option value="' + i + '">' + uimaranta + '</option>';
       }
-        else{
-          continue
-        }
     }
-    // Lisätään lista valikkoon
-    listaus.innerHTML += lista
-}
-}
+
+    $("#uimaranta").html(lista);
+  },
+  error: function() {
+    alert('Dataa ei voida hakea');
+  }
+});
+
 // Haetaan uimavesidata API:sta käyttäjän valinnan perusteella
     function valinta(){
       // Haetaan uimarannan tietueen numero valikosta
@@ -133,7 +122,6 @@ xmlhttp.onreadystatechange = function () {
   if (dgrm.readyState === 4 && dgrm.status === 200) {
     // Vastaus muunnetaan JSON-muotoiseksi
     var dgrmdata = JSON.parse(dgrm.responseText);
-    console.log(dgrmdata);
     //Haetaan lämpötilatiedot ja päivämäärät API:sta muuttujiin
     let labels = [];
     let values = [];
@@ -148,7 +136,6 @@ xmlhttp.onreadystatechange = function () {
     labels.push(paivamaarat)
     values.push(dgrmdata.properties.data.d1[i].temp_water)
     }
-    console.log(labels)
   
 // Luodaan diagrammi
 const ctx = document.querySelector("#diagrammi").getContext("2d");
