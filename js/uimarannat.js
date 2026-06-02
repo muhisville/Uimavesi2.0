@@ -13,17 +13,19 @@ $.ajax({
   url: 'https://iot.fvh.fi/opendata/uiras/uiras_latest.geojson',
   type: 'GET',
   success: function(response) {
+    //luodaan lista käytössä olevista uimarannoista
     let lista = "<option value = ''>Valitse</option>";
     for (let i = 0; i < response.features.length; i++) {
       let uimaranta = response.features[i].properties.name;
-
+    // Uimarannat, joiden mittari ei ole käytössä, poistetaan listalta
       if (response.features[i].properties.measurement !== undefined) {
         lista += '<option value="' + i + '">' + uimaranta + '</option>';
       }
     }
-
+    // DOM-skriptataan lista alasvetovalikkon HTML-sivulla
     $("#uimaranta").html(lista);
   },
+    // Virheilmoitus, jos API tai muu sakkaa
   error: function() {
     alert('Dataa ei voida hakea');
   }
@@ -44,13 +46,14 @@ var xmlhttp = new XMLHttpRequest();
 xmlhttp.open('GET', 'https://iot.fvh.fi/opendata/uiras/uiras_latest.geojson', true);
 // Määritellään käsittelijä vastauksen saapuessa
 xmlhttp.onreadystatechange = function () {
-  // Tarkista virheet
+  // Tarkistetaan virheet
   if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
     // Vastaus muunnetaan JSON-muotoiseksi
     var data = JSON.parse(xmlhttp.responseText);
     // Validoidaan sisältö
     if (data.features[idnumero].properties.measurement.temp_water > 0) {
-    // Haetaan haluttu data: Uimarannan nimi, sijainti ja veden lämpötila
+    
+      // Haetaan haluttu data: Uimarannan nimi, sijainti ja veden lämpötila
     let nimi = data.features[idnumero].properties.name
     let paikka = data.features[idnumero].properties.location
     let lampotila = data.features[idnumero].properties.measurement.temp_water
